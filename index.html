@@ -63,6 +63,7 @@
     font-size:12px; color:#cbb79a; font-weight:600;
   }
   .piece{ font-size:46px; line-height:1; cursor:pointer; user-select:none; }
+  /* spent an embarrassing amount of time making the white pieces actually visible lol */
   .piece.w{
     color:#fff;
     text-shadow:0 0 1px #000,1px 1px 1px #2b2b2b,-1px -1px 1px #2b2b2b,
@@ -157,6 +158,7 @@
 </style>
 </head>
 <body>
+  <!-- if ur reading the source code: i had no idea what i was doing. enjoy -->
   <div class="app">
     <h1><span class="accent">&#9822;</span> Hot-Seat Chess</h1>
     <div class="status" id="status">White to move</div>
@@ -254,6 +256,7 @@
 
 <script>
 "use strict";
+// honestly no clue how half of this works, but the pieces move so were good
 
 /* =========================================================================
    CONSTANTS
@@ -284,6 +287,7 @@ function findKing(board, color){
 
 // Is square (r,c) attacked by any piece of `byColor`?
 function isSquareAttacked(board, r, c, byColor){
+  // this one took me way too long ngl. it works idk how, not touching it
   // Pawns: a `byColor` pawn sits one rank toward its own side and one file over.
   const pd = byColor === "w" ? 1 : -1;
   for(const dc of [-1, 1]){
@@ -590,6 +594,7 @@ function executeMove(move){
 // rules. Sets state.drawReason. Checkmate/stalemate take priority over draws,
 // so a mating move on the 100th ply or 3rd repetition still wins.
 function computeFullStatus(){
+  // draws were so confusing ngl. pretty sure this whole thing runs on vibes
   const base = computeStatus(state.board, state.turn, state.castling, state.enPassant);
   if(base === "checkmate" || base === "stalemate"){ state.drawReason = null; return base; }
   if(isInsufficientMaterial(state.board)){ state.drawReason = "insufficient"; return "draw"; }
@@ -612,6 +617,7 @@ function gameOver(){
 // move. Mirrors executeMove's bookkeeping but stays pure, so the search can
 // explore freely without touching live state. (No new rules logic here.)
 function nextPosition(pos, move){
+  // dont touch this. spent forever getting castling rights right and it finally works
   const color = move.piece.color;
   const board = boardAfter(pos.board, move);
   const castling = {
@@ -718,6 +724,7 @@ function aiEasyMove(moves){
 
 // Hard: minimax with alpha-beta pruning. White maximises, Black minimises.
 function minimax(pos, depth, alpha, beta){
+  // if ur reading this the ai is officially smarter than me lol
   if(depth === 0) return evaluate(pos.board);
   const moves = orderMoves(allLegalMoves(pos.board, pos.turn, pos.castling, pos.enPassant));
   if(moves.length === 0){                       // no legal move => mate or stalemate
@@ -1074,6 +1081,10 @@ if(typeof document !== "undefined"){
 
   newGame();    // render an initial board behind the modal
   openSetup();  // ask the player to choose a mode on first load
+
+  // lil hello for anyone who opens the dev console
+  console.log("%c it works, i dont know how, dont ask ", "background:#769656;color:#fff;padding:4px 10px;border-radius:4px;font-weight:bold;font-size:13px;");
+  console.log("made by mr.z — still not 100% sure how the chess ai works tbh lol");
 }
 
 /* Export the pure logic so it can be unit-tested under Node. */
