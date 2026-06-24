@@ -1,0 +1,12 @@
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS cruft
+Thumbs.db
+.DS_Store
+
+# Local tooling (not part of the project)
+.claude/
