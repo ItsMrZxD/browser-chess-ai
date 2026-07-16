@@ -1,5 +1,7 @@
 # Hot-Seat Chess
 
+[![CI](https://github.com/ItsMrZxD/hotseat-chess/actions/workflows/ci.yml/badge.svg)](https://github.com/ItsMrZxD/hotseat-chess/actions/workflows/ci.yml)
+
 A complete chess game in a **single, self-contained HTML file** — HTML, CSS, and
 vanilla JavaScript, no build step and no external libraries. Just open it in a
 browser and play.
@@ -69,6 +71,22 @@ correctly to check.
 - No dependencies, no build tooling
 - Pure standard-library JavaScript
 
+## Tests
+
+Because the rules engine is pure logic, it can be tested outside a browser.
+The test suite extracts the inline `<script>` from `index.html`, evaluates it
+in a Node sandbox, and checks the chess rules directly — legal-move counts,
+en passant, castling (including through-check denial), checkmate, stalemate,
+promotion, and insufficient-material detection. No dependencies beyond Node
+itself:
+
+```
+node tests/engine.test.js
+```
+
+The suite runs in CI on every push (the game itself is still a single file —
+the tests live alongside it and are not needed to play).
+
 ## License
 
-Free to use and modify.
+MIT — see [LICENSE](LICENSE).
