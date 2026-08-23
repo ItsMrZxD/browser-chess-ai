@@ -11,36 +11,20 @@ opponent, with full legal-move enforcement and all the standard draw rules.
 
 ## Features
 
-### Game modes
 - **Two-player hot-seat** — both players share one screen
-- **vs Computer** — choose your side (White/Black) and a difficulty:
-  - **Easy** — greedy: plays a random legal move but always grabs the
-    highest-value capture available
-  - **Hard** — minimax search with alpha-beta pruning (depth 3), evaluating
-    material, central control, and king safety
-
-### Full rules engine
-- All piece movement, plus **castling**, **en passant**, and **pawn promotion**
-  (pick your piece, defaults to queen)
-- Strict legality: you can't move into check, can't leave your king in check,
-  and can't move your opponent's pieces
-- **Check**, **checkmate**, and **stalemate** detection
-- All standard **draws**:
-  - Threefold repetition
-  - 50-move rule
-  - Insufficient material (K vs K, K+B vs K, K+N vs K, and same-colored-bishop endings)
-
-### Interface
-- Click to select a piece; legal destinations are highlighted
-- Status bar announcing whose turn it is and check / checkmate / stalemate / draw
-- Captured pieces shown for each side
-- **Settings panel** (gear button) with live updates:
-  - Board theme — Classic, Blue, Wood, or Gray
-  - Toggle legal-move highlights
-  - Toggle coordinates (rank/file labels)
-  - Toggle last-move highlight
-  - AI move delay — Instant / Fast / Normal / Slow
-  - Flip board (play from Black's side)
+- **vs Computer** — pick your side and difficulty. Easy plays a random
+  legal move but always takes the highest-value capture; Hard is minimax with
+  alpha-beta pruning (depth 3), scoring material, central control, and king
+  safety
+- Castling, en passant, and pawn promotion (pick your piece, defaults to queen)
+- Check, checkmate, and stalemate detection
+- All standard draws — threefold repetition, 50-move rule, and insufficient
+  material (K vs K, K+B vs K, K+N vs K, same-colored-bishop endings)
+- Strict legality: you can't move into check, leave your king in check, or move
+  your opponent's pieces
+- Click a piece to highlight its legal destinations; captured pieces shown per side
+- Settings panel (gear button), live mid-game — board theme, legal-move and
+  last-move highlights, coordinates, AI delay, and board flip
 
 ## How to run
 
@@ -50,7 +34,7 @@ No installation, no server. Just:
 Double-click index.html
 ```
 
-…or open it in any modern browser. That's it.
+…or open it in any modern browser.
 
 ## How to play
 
@@ -67,25 +51,20 @@ legal-move generator powers the UI, the rules (check/checkmate/draws), and the
 AI search — so the computer can only ever play legal moves and always responds
 correctly to check.
 
-- Single file: `index.html`
-- No dependencies, no build tooling
-- Pure standard-library JavaScript
-
 ## Tests
 
 Because the rules engine is pure logic, it can be tested outside a browser.
-The test suite extracts the inline `<script>` from `index.html`, evaluates it
-in a Node sandbox, and checks the chess rules directly — legal-move counts,
-en passant, castling (including through-check denial), checkmate, stalemate,
-promotion, and insufficient-material detection. No dependencies beyond Node
-itself:
+The suite extracts the inline `<script>` from `index.html`, evaluates it in a
+Node sandbox, and checks the rules directly — legal-move counts, en passant,
+castling (including through-check denial), checkmate, stalemate, promotion,
+and insufficient material:
 
 ```
 node tests/engine.test.js
 ```
 
-The suite runs in CI on every push (the game itself is still a single file —
-the tests live alongside it and are not needed to play).
+The game itself is still a single file — the tests live alongside it and
+are not needed to play.
 
 ## License
 

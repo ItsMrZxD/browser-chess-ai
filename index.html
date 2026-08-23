@@ -258,17 +258,12 @@
 "use strict";
 // honestly no clue how half of this works, but the pieces move so were good
 
-/* =========================================================================
-   CONSTANTS
-   ========================================================================= */
 // Solid Unicode glyphs are used for BOTH colours and tinted via CSS, which
 // gives far better contrast on a light/dark board than the outline glyphs.
 const GLYPH = { k:"♚", q:"♛", r:"♜", b:"♝", n:"♞", p:"♟" };
 const VALUE = { p:1, n:3, b:3, r:5, q:9, k:0 };
 
-/* =========================================================================
-   GAME LOGIC  (pure, no DOM — fully testable on its own)
-   ========================================================================= */
+// Pure game logic: no DOM, so the engine can be tested on its own.
 function inside(r, c){ return r >= 0 && r < 8 && c >= 0 && c < 8; }
 function opp(color){ return color === "w" ? "b" : "w"; }
 
@@ -513,9 +508,6 @@ function initialBoard(){
   return b;
 }
 
-/* =========================================================================
-   MUTABLE GAME STATE  (drives the UI)
-   ========================================================================= */
 const state = {
   board: [], turn: "w",
   castling: { w:{ k:true, q:true }, b:{ k:true, q:true } },
@@ -609,10 +601,6 @@ function gameOver(){
   return state.status === "checkmate" || state.status === "stalemate" || state.status === "draw";
 }
 
-/* =========================================================================
-   AI OPPONENT  (built entirely on top of the existing move generation)
-   ========================================================================= */
-
 // Advance a lightweight position { board, turn, castling, enPassant } by one
 // move. Mirrors executeMove's bookkeeping but stays pure, so the search can
 // explore freely without touching live state. (No new rules logic here.)
@@ -639,7 +627,7 @@ function nextPosition(pos, move){
   return { board, turn: oc, castling, enPassant };
 }
 
-// Gather every legal move for one side (reuses legalMovesAt — same rules).
+// Gather every legal move for one side (reuses legalMovesAt, same rules).
 function allLegalMoves(board, color, castling, enPassant){
   const moves = [];
   for(let r = 0; r < 8; r++)
@@ -800,13 +788,10 @@ function runAIMove(){
   render();
 }
 
-/* =========================================================================
-   RENDERING / UI  (DOM)
-   ========================================================================= */
 let boardEl, statusEl, trayTop, trayBottom, promoEl, newGameBtn, setupEl, modeInfoEl, settingsEl;
 let setupChoice = { mode: "two", side: "w", diff: "easy" };
 
-/* ---- Display settings (session-only; opening the panel never touches game state) ---- */
+// Session-only: opening the panel never touches game state.
 const THEMES = {
   classic: { light:"#eeeed2", dark:"#769656" },
   blue:    { light:"#dce6f2", dark:"#7a9cc0" },
@@ -1018,9 +1003,6 @@ function askPromotion(color){
   });
 }
 
-/* =========================================================================
-   START-SCREEN / MODE SELECTION
-   ========================================================================= */
 function openSetup(){
   syncSetupUI();
   setupEl.classList.remove("hidden");
@@ -1039,9 +1021,6 @@ function startFromSetup(){
   newGame();
 }
 
-/* =========================================================================
-   INIT  (browser only)
-   ========================================================================= */
 if(typeof document !== "undefined"){
   boardEl = document.getElementById("board");
   statusEl = document.getElementById("status");
