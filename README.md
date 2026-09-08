@@ -7,6 +7,11 @@
 hot-seat plus a minimax AI opponent with alpha-beta pruning. Vanilla JavaScript,
 no build step, no libraries, no server.**
 
+### ▶ [Play it live](https://itsmrzxd.github.io/browser-chess-ai/)
+
+No install, no sign-up — the GitHub Pages deployment serves the same
+`index.html` that lives in this repository.
+
 Download `index.html`, double-click it, and play. The whole game — board
 rendering, the rules engine, and the computer opponent — lives in that one file,
 so there is nothing to install and nothing to configure. Useful if you want a
@@ -132,11 +137,22 @@ needed to play.
 
 ## Limitations
 
-- **Settings are not persisted.** Theme, highlights, AI delay, and board flip
-  reset to defaults when the page reloads.
-- **Search depth is fixed at 3.** Hard plays a reasonable club-level game but
-  has no opening book, no endgame tablebase, and no quiescence search, so it is
-  vulnerable to tactics that resolve deeper than three plies.
+- **The AI uses a fixed depth-3 minimax search (3-ply lookahead) with
+  alpha-beta pruning.** The depth is not configurable and does not adapt to the
+  position, so any tactic that resolves deeper than three plies is invisible to
+  it. There is no quiescence search, so it is also susceptible to the horizon
+  effect in sharp capture sequences.
+- **There is no opening book, no positional database, and no endgame
+  tablebases.** Every move is chosen from the same static evaluation, from move
+  one to the final position.
+- **This is a lightweight browser-game AI, not a competitive chess engine.** It
+  is built to be a fun opponent inside a single HTML file, and is not intended
+  to compete with serious engines such as
+  [Stockfish](https://stockfishchess.org/) — those search far deeper, use
+  tuned evaluation networks, and would beat this comfortably.
+- **Game settings and state reset on reload.** Theme, highlights, AI delay,
+  board flip, and the game in progress are all held in memory only — there is
+  no `localStorage` or other persistence, so refreshing the page starts over.
 - **No move list, PGN export, FEN import, or undo.**
 - **No clock.** Games are untimed.
 
