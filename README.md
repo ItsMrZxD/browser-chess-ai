@@ -3,30 +3,29 @@
 [![CI](https://github.com/ItsMrZxD/browser-chess-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ItsMrZxD/browser-chess-ai/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**A complete browser chess game in a single self-contained HTML file — two-player
-hot-seat plus a minimax AI opponent with alpha-beta pruning. Vanilla JavaScript,
-no build step, no libraries, no server.**
+A browser chess game in a single HTML file, with two-player hot-seat and a
+minimax AI opponent using alpha-beta pruning. Plain JavaScript with no build
+step, libraries or server.
 
-### ▶ [Play it live](https://itsmrzxd.github.io/browser-chess-ai/)
+### [Play it live](https://itsmrzxd.github.io/browser-chess-ai/)
 
-No install, no sign-up — the GitHub Pages deployment serves the same
+No install or sign-up. The GitHub Pages deployment serves the same
 `index.html` that lives in this repository.
 
-Download `index.html`, double-click it, and play. The whole game — board
-rendering, the rules engine, and the computer opponent — lives in that one file,
-so there is nothing to install and nothing to configure. Useful if you want a
-chess game you can drop onto any static host, or a compact, readable reference
-implementation of legal-move generation and a minimax chess AI in plain
+Download `index.html`, double-click it, and play. The whole game (board
+rendering, the rules engine, and the computer opponent) lives in that one file,
+so there is nothing to install or configure. It can be put on any static host,
+or read as an example of legal-move generation and a minimax chess AI in plain
 JavaScript.
 
 ## Features
 
-**Game modes**
+### Game modes
 
-- **Two-player hot-seat** — both players share one screen and one keyboard
-- **vs Computer** — choose your colour and difficulty before the game starts
+- **Two-player hot-seat**: both players share one screen and one keyboard
+- **vs Computer**: choose your colour and difficulty before the game starts
 
-**Complete rule enforcement**
+### Rules
 
 - Castling (kingside and queenside, including through-check denial)
 - En passant
@@ -34,10 +33,10 @@ JavaScript.
 - Check, checkmate, and stalemate detection
 - Threefold repetition, the 50-move rule, and insufficient material
   (K vs K, K+B vs K, K+N vs K, and same-coloured-bishop endings)
-- Strict legality — you cannot move into check, leave your king in check, or
+- **Strict legality**: you cannot move into check, leave your king in check, or
   move your opponent's pieces
 
-**Interface**
+### Interface
 
 - Click a piece to light up its legal destinations
 - Captured pieces shown per side
@@ -45,8 +44,8 @@ JavaScript.
 
 ## Requirements
 
-Any modern browser. That is the entire list — there is no build step, no
-package manager, and no network access needed at runtime.
+Any modern browser. There is no build step or package manager, and no network
+access is needed at runtime.
 
 Running the test suite additionally needs [Node.js](https://nodejs.org).
 
@@ -57,8 +56,8 @@ Double-click index.html
 ```
 
 Or open it from a browser's File → Open dialog, or serve the directory with any
-static file server. Cloning is optional — a direct download of `index.html`
-works just as well:
+static file server. Cloning is optional; a direct download of `index.html`
+also works:
 
 ```bash
 git clone https://github.com/ItsMrZxD/browser-chess-ai
@@ -67,11 +66,11 @@ cd browser-chess-ai
 
 ## How to play
 
-1. Click **New Game** and pick a mode — Two Player or vs Computer.
+1. Click New Game and pick a mode: Two Player or vs Computer.
 2. In vs Computer mode, choose your colour and difficulty (Easy or Hard).
-3. Click one of your pieces — its legal moves light up.
+3. Click one of your pieces to light up its legal moves.
 4. Click a highlighted square to move.
-5. Use **⚙ Settings** at any time to change the board theme, flip the board, or
+5. Use ⚙ Settings at any time to change the board theme, flip the board, or
    adjust the AI's thinking delay, without interrupting the game.
 
 ## Settings
@@ -90,7 +89,7 @@ All settings apply immediately and can be changed mid-game.
 ## How the AI works
 
 The computer opponent has two difficulty levels, both driven by the same
-legal-move generator the UI uses — so the AI can only ever play legal moves.
+legal-move generator the UI uses, so the AI can only ever play legal moves.
 
 **Easy** is greedy. It takes the highest-value capture available, picking at
 random between equally valuable ones, and otherwise plays a random legal move.
@@ -116,7 +115,7 @@ a king tucked toward a corner over one sitting in the centre).
 ## Architecture
 
 The code keeps game-state logic separate from rendering. One legal-move
-generator powers three consumers — the UI's move highlighting, the rules layer
+generator powers three consumers: the UI's move highlighting, the rules layer
 (check, checkmate, and every draw condition), and the AI search. Because the
 rules engine is pure logic with no DOM dependencies, it can be tested outside a
 browser entirely.
@@ -132,13 +131,13 @@ Node sandbox, and exercises the rules directly: legal-move counts, en passant,
 castling (including through-check denial), checkmate, stalemate, promotion, and
 insufficient material. It runs on every push via GitHub Actions.
 
-The game itself remains a single file — the tests sit alongside it and are not
+The game itself remains a single file. The tests sit alongside it and are not
 needed to play.
 
 ## Limitations
 
-- **The AI uses a fixed depth-3 minimax search (3-ply lookahead) with
-  alpha-beta pruning.** The depth is not configurable and does not adapt to the
+- **The AI uses a fixed depth-3 minimax search** (3-ply lookahead) with
+  alpha-beta pruning. The depth is not configurable and does not adapt to the
   position, so any tactic that resolves deeper than three plies is invisible to
   it. There is no quiescence search, so it is also susceptible to the horizon
   effect in sharp capture sequences.
@@ -148,14 +147,14 @@ needed to play.
 - **This is a lightweight browser-game AI, not a competitive chess engine.** It
   is built to be a fun opponent inside a single HTML file, and is not intended
   to compete with serious engines such as
-  [Stockfish](https://stockfishchess.org/) — those search far deeper, use
+  [Stockfish](https://stockfishchess.org/). Those search far deeper, use
   tuned evaluation networks, and would beat this comfortably.
 - **Game settings and state reset on reload.** Theme, highlights, AI delay,
-  board flip, and the game in progress are all held in memory only — there is
+  board flip, and the game in progress are all held in memory only. There is
   no `localStorage` or other persistence, so refreshing the page starts over.
 - **No move list, PGN export, FEN import, or undo.**
 - **No clock.** Games are untimed.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
